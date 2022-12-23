@@ -28,6 +28,14 @@ func (h *OrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	// search by OrderId
+	getOrder, err := h.orderRepository.GetOrder(order.OrderID)
+	if getOrder != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte("Order already exists with this ID " + order.OrderID.String()))
+		return
+	}
 
 	err = h.orderRepository.CreateOrder(&order)
 	if err != nil {
