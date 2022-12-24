@@ -5,7 +5,9 @@ go 1.19
 require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
+	github.com/twitchtv/twirp v8.1.3+incompatible
 	go.mongodb.org/mongo-driver v1.11.1
+	google.golang.org/protobuf v1.28.1
 )
 
 require (

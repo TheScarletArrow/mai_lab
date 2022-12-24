@@ -2,13 +2,13 @@ package api
 
 import (
 	"encoding/json"
-	"net/http"
-
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-
+	"net/http"
 	"orders/internal/domain"
 	"orders/internal/interfaces"
+
+	_ "orders/rpc"
 )
 
 type OrderHandler struct {
@@ -36,7 +36,14 @@ func (h *OrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Order already exists with this ID " + order.OrderID.String()))
 		return
 	}
-
+	//client := rpc.NewUsersProtobufClient("localhost:8181", &http.Client{})
+	//user, err := client.GetUser(r.Context(), &rpc.GetUserRequest{Id: order.UserID.String()})
+	//if user.User == nil {
+	//	w.WriteHeader(http.StatusInternalServerError)
+	//	w.Header().Set("Content-Type", "application/json")
+	//	w.Write([]byte("User does not exist with this ID " + order.UserID.String()))
+	//	return
+	//}
 	err = h.orderRepository.CreateOrder(&order)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
